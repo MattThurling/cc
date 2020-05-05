@@ -10,31 +10,37 @@ const (
 	hosts      = "localhost:27017"
 	username   = ""
 	password   = ""
+	database   = "db"
 )
 
-var Session *mgo.Session
+type MongoStore struct {
+	Session *mgo.Session
+}
+
+var MS = MongoStore{}
 
 func init() {
 
 	info := &mgo.DialInfo{
 		Addrs:    []string{hosts},
 		Timeout:  60 * time.Second,
+		Database: database,
 		Username: username,
 		Password: password,
 	}
 
-	Session, err := mgo.DialWithInfo(info)
+	session, err := mgo.DialWithInfo(info)
 	if err != nil {
 		panic(err)
 	}
 
-	err = Session.Ping()
+	err = session.Ping()
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Connected to database")
 
-	return
+	MS.Session = session
 
 }
