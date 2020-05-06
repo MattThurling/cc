@@ -1,7 +1,7 @@
 package main
 
 import (
-	"coincover/config"
+	"cc-api/config"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io/ioutil"
@@ -45,13 +45,13 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//Insert job into MongoDB
+	//Insert user into MongoDB
 	err = col.Insert(_u)
 	if err != nil {
 		panic(err)
 	}
 
-	//Convert job struct into json
+	//Convert user struct into json
 	jsonString, err := json.Marshal(_u)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
