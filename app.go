@@ -22,7 +22,7 @@ func main() {
 
 	router.HandleFunc("/user", createUser).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":9090", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
 
