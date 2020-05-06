@@ -3,11 +3,11 @@ package config
 import (
 	"fmt"
 	"gopkg.in/mgo.v2"
+	"os"
 	"time"
 )
 
 const (
-	hosts      = "localhost:27017"
 	username   = ""
 	password   = ""
 	database   = "db"
@@ -22,7 +22,7 @@ var MS = MongoStore{}
 func init() {
 
 	info := &mgo.DialInfo{
-		Addrs:    []string{hosts},
+		Addrs:    []string{os.Getenv("DB_HOST")},
 		Timeout:  60 * time.Second,
 		Database: database,
 		Username: username,
