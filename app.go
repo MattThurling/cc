@@ -3,10 +3,10 @@ package main
 import (
 	"coincover/config"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"github.com/gorilla/mux"
 )
 
 type User struct {
