@@ -1,3 +1,4 @@
+// Package config sets up the connection to the Mongo database container
 package config
 
 import (
@@ -7,12 +8,14 @@ import (
 	"time"
 )
 
+// TODO extract all db info to environment variables
 const (
 	username   = ""
 	password   = ""
 	database   = "db"
 )
 
+// MongoStore stores the Mongo session
 type MongoStore struct {
 	Session *mgo.Session
 }
