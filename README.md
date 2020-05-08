@@ -1,28 +1,33 @@
-# API
+# Simple Sample Microservice
 A simple microservice API that handles a request and stores it in a containerised Mongo.
 
-The companion Mongo repo for this service is [here](https://github.com/mattthurling/mongodocker)
+![](https://docs.google.com/drawings/d/e/2PACX-1vQTD4mIs6vQ9bYWKmR_vyIHZlB5ebCW3ITMO7BcW_6vOA3Gg9lQygLY6C1Vb21SCn6ZwryhOtTtmlOr/pub?w=666&h=985)
 
-## Testing
-To test the API locally, first clone the Mongo repo, cd into the folder and run:
+## Prerequisites
+To install this service, you will need:
+
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+## Installation
+Clone this repo, cd into the cc folder and run:
 
 `docker-compose up`
 
-Then clone this repo. You will need to set an environment variable to run in a non-containerised context:
+This should multistage build the app, as specified in Dockerfile, create a tiny image and launch it along with the a standard Mongo container.
+
+To check both containers are running, run:
+
+`docker ps`
+
+## Running locally
+Database details are handled by environment variables declared in the docker-compose.yml file. If you want to run the app in your local Go environment (having launched the Mongo container, as described above) you will need to set:
+
 `DB_HOST=localhost:27017`
 
-To test the API you can use this [Postman Collection](https://documenter.getpostman.com/view/9321625/Szmcbf1R)
+## Testing
+With both containers running, you can test the API using this [Postman Collection](https://documenter.getpostman.com/view/9321625/Szmcbf1R)
 
-## Deployment
-To build a binary ready for containerisation, run:
+Note: No automated tests have been written yet, and the validation error messages are generic and simplified.
 
-`CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .`
 
-Then, to build the image, for example:
-
-`docker build --no-cache -t mattthurling/cc-api:latest .`
-
-To run the container and have it communicate with the already-running Mongo container:
-
-```docker run --name cc-api -d --rm -e DB_HOST=cc-mgo:27017 -p 8000:8080 --network cc-network mattthurling/cc-api:latest```
 
