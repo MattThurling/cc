@@ -13,7 +13,7 @@ Clone this repo, cd into the cc folder and run:
 
 `docker-compose up`
 
-This should multistage build the app, as specified in Dockerfile, create a tiny image and launch it along with the a standard Mongo container.
+This should multistage build the app, as specified in Dockerfile, create a tiny image and launch it along with a standard Mongo container.
 
 To check both containers are running, run:
 
