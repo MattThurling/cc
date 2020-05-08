@@ -13,6 +13,10 @@ Clone this repo, cd into the cc folder and run:
 
 `docker-compose up`
 
+or
+
+`sudo docker-compose up` on Linux.
+
 This should multistage build the app, as specified in Dockerfile, create a tiny image and launch it along with a standard Mongo container.
 
 To check both containers are running, run:
@@ -21,6 +25,18 @@ To check both containers are running, run:
 
 ## Testing
 With both containers running, you can test the API using this [Postman Collection](https://documenter.getpostman.com/view/9321625/Szmcbf1R)
+
+or via cURL:
+
+```
+curl --location --request POST 'http://localhost:8000/user' \
+   --data-raw '{
+       "first_name" : "John",
+       "last_name" : "Doe",
+       "country" : "England",
+       "email" : "jdoe@mail.co"
+   }'
+```
 
 Note: No automated tests have been written yet, and the validation error messages are generic and simplified.
 
