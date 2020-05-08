@@ -1,13 +1,16 @@
 package main
 
 import (
-	"cc-api/config"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
-	"gopkg.in/go-playground/validator.v10"
+	"gopkg.in/go-playground/validator.v9"
+	"gopkg.in/mgo.v2"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"time"
 )
 
 // User holds the user information and the mappings from json
@@ -18,8 +21,46 @@ type User struct {
 	Email	    string `json:"email" validate:"required,email"`
 }
 
+// MongoStore stores the Mongo session
+type MongoStore struct {
+	session *mgo.Session
+}
+
+var mongoStore = MongoStore{}
+
+func initMongo() (session *mgo.Session) {
+
+	info := &mgo.DialInfo{
+		Addrs:    []string{os.Getenv("DB_HOST")},
+		Timeout:  60 * time.Second,
+		Database: os.Getenv("DB_DATABASE"),
+		Username: os.Getenv("DB_USERNAME"),
+		Password: os.Getenv("DB_PASSWORD"),
+	}
+
+	session, err := mgo.DialWithInfo(info)
+	if err != nil {
+		panic(err)
+	}
+
+	err = session.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Connected to database")
+
+	return
+
+}
+
+
 // Program entrypoint
 func main() {
+
+	//Create MongoDB session
+	session := initMongo()
+	mongoStore.session = session
 
 	router := mux.NewRouter().StrictSlash(true)
 
@@ -32,7 +73,7 @@ func main() {
 // createUser handles the POST request, saves the data into a struct and then writes to the database
 func createUser(w http.ResponseWriter, r *http.Request) {
 
-	col := config.MS.Session.DB("db").C("users")
+	col := mongoStore.session.DB(os.Getenv("DB_DATABASE")).C("users")
 
 	//Retrieve body from http request
 	b, err := ioutil.ReadAll(r.Body)
