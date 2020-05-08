@@ -8,13 +8,6 @@ import (
 	"time"
 )
 
-// TODO extract all db info to environment variables
-const (
-	username   = ""
-	password   = ""
-	database   = "db"
-)
-
 // MongoStore stores the Mongo session
 type MongoStore struct {
 	Session *mgo.Session
@@ -27,9 +20,9 @@ func init() {
 	info := &mgo.DialInfo{
 		Addrs:    []string{os.Getenv("DB_HOST")},
 		Timeout:  60 * time.Second,
-		Database: database,
-		Username: username,
-		Password: password,
+		Database: os.Getenv("DB_DATABASE"),
+		Username: os.Getenv("DB_USERNAME"),
+		Password: os.Getenv("DB_PASSWORD"),
 	}
 
 	session, err := mgo.DialWithInfo(info)

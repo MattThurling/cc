@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  api:
+    build: .
+    environment:
+      - DB_HOST=mgo:27017
+      - DB_DATABASE=db
+      - DB_USERNAME=
+      - DB_PASSWORD=
+    ports:
+      - "8000:8080"
+    depends_on:
+      - mgo
+  mgo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - "mongodata:/data/db"
+
+volumes:
+  mongodata:
