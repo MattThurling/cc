@@ -19,15 +19,13 @@ To check both containers are running, run:
 
 `docker ps`
 
-## Running locally
-Database details are handled by environment variables declared in the docker-compose.yml file. If you want to run the app in your local Go environment (having launched the Mongo container, as described above) you will need to set:
-
-`DB_HOST=localhost:27017`
-
 ## Testing
 With both containers running, you can test the API using this [Postman Collection](https://documenter.getpostman.com/view/9321625/Szmcbf1R)
 
 Note: No automated tests have been written yet, and the validation error messages are generic and simplified.
 
+## Running locally (optional)
+Database details are handled by environment variables declared in the docker-compose.yml file. If you want to run the app in your local Go environment (having launched the Mongo container, as described above) you will need to set:
 
+`DB_HOST=localhost:27017`
 
